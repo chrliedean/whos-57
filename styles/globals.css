@@ -26,10 +26,40 @@ code {
   font-family: Menlo, Monaco, Lucida Console, Courier New, monospace;
 }
 
+.title {
+  font-family: flegrei, sans-serif;
+  font-size: 48pt;
+  margin-bottom: 0;
+}
+
 .container {
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.inputContainer {
+  margin-top: 50px;
+}
+
+.inputBox {
+  font-size: 3em;
+  padding: 10px;
+  text-align: center;
+  height: 100px;
+  width: 100%;
+  outline: none;
+  border: 2px solid rgb(213, 213, 213);
+  box-sizing: border-box;
+  border-radius: 50px;
+}
+
+.inputBox:focus {
+  outline: none;
+}
+
+.hidden {
+  display: none;
 }
