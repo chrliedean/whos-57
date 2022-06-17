@@ -60,6 +60,12 @@ code {
   outline: none;
 }
 
+.guessResultDisplay {
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
 .hidden {
   display: none;
 }
