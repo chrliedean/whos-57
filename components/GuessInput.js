@@ -20,7 +20,7 @@ export default function GuessInput() {
         //Search celebrity on Wikidata
         const wdurl = wdk.cirrusSearchPages({ search: name , haswbstatement: ['P31=Q5','-P570']})
         console.log(wdurl)
-        wdurl = "https://cors-anywhere.herokuapp.com/" + wdurl
+        //wdurl = "https://cors-anywhere.herokuapp.com/" + wdurl
         let wdresponse = await fetch(wdurl)
             .then(res => res.json())
             .then(wdk.parse.wb.pagesTitles) // what on earth does this do
