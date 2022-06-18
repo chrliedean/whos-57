@@ -1,13 +1,47 @@
+import WBK from 'wikibase-sdk'
+
 export default function GuessInput() {
 
+    // maybe this will be user-changable later
     var targetAge = 57
 
+    //INITIALIZES WIKIBASE SDK
+    const wdk = WBK({
+        instance: 'https://wikidata.org/',
+        sparqlEndpoint: 'https://query.wikidata.org/sparql'
+    })
+
+
+    // GETS USER INPUT AND FINDS AGE
     const getAge = async(event) => {
         event.preventDefault();
-        //Get User Input
-        const name = event.target.name.value
+        const name = event.target.name.value // gets input text from field
 
-        //Fetch Celebrity data from API
+        //Search celebrity on Wikidata
+        const wdurl = wdk.cirrusSearchPages({ search: name , haswbstatement: ['P31=Q5','-P570']})
+        console.log(wdurl)
+        let wdresponse = await fetch(wdurl, 
+            {
+                method: "GET",
+                withCredentials: false,
+                headers: {
+                    'Content-Type': 'text/plain'
+                }
+                
+            }
+        )
+            .then(res => res.json())
+            .then(wdk.parse.wb.pagesTitles) // what on earth does this do
+            .then(titles => {
+
+                const ids = titles
+                // From there, to get the full entities data, you could do
+                const entitiesUrl = wdk.getEntities({ ids })
+                console.log("entititiesURL: " + entitiesUrl)
+                //return fetch(entitiesUrl)
+              })
+
+        //API NINJA AGE FINDING
         let url = 'https://api.api-ninjas.com/v1/celebrity?name=' + name;
         let response = await fetch(url, {
             headers: {
@@ -43,6 +77,7 @@ export default function GuessInput() {
 
     }
 
+    // CHECKS IF THE AGE IS 57
     function submitGuess(age, name) {
 
         document.getElementById("validGuess").style.display = "block"
@@ -61,6 +96,7 @@ export default function GuessInput() {
         }
     }
 
+    // NAME NOT FOUND
     function noCelebrityFound(input) {
 
         document.getElementById("validGuess").style.display = "none"
@@ -69,6 +105,7 @@ export default function GuessInput() {
 
     }
 
+    // NAME FOUND, AGE UNKNOWN
     function noAgeFound(input) {
 
         document.getElementById("validGuess").style.display = "none"
