@@ -66,6 +66,52 @@ code {
   font-weight: 600;
 }
 
+.guessImage {
+  display: block;
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  margin-left: -100px;
+  margin-top: -100px;
+  background-color: #eee;
+  border-radius: 50%;
+  background-image: url('/placeholder-profile.svg');
+  background-size: cover;
+  position: absolute;
+}
+
+.guessImageText {
+  font-family: arboria, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12pt;
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+.guessImageWrapper {
+  position: relative;
+  display: block;
+  margin: 20px auto;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.2)
+}
+
+.bottomArc {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+
+}
+
+.topArc {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+}
+
 .hidden {
   display: none;
 }
