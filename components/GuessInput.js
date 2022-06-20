@@ -13,6 +13,11 @@ export default function GuessInput() {
         sparqlEndpoint: 'https://query.wikidata.org/sparql'
     })
 
+    function randomInt(min, max) {
+        min = Math.ceil(min)
+        max = Math.floor(max)
+        return Math.floor(Math.random() * (max - min + 1)) + min
+    }
 
     // GETS USER INPUT AND FINDS WIKIDATA ID
     const getEntity = async(event) => {
@@ -155,21 +160,74 @@ export default function GuessInput() {
 
     // displays image
     let imgCardIndex = 0
+    let cardCount = 1
     function displayImage(url, name, age) {
 
         let imgCard = document.getElementById('imgCard' + imgCardIndex)
+        console.log('imgCard ID: ' + imgCard.id)
         let cardCopy = imgCard.cloneNode(true)
-        if (imgCardIndex < 5) {
-            imgCardIndex++
+
+        if (imgCardIndex < 4) {
+            imgCardIndex = imgCardIndex + 1
         } else {
             imgCardIndex = 0
         }
-        cardCopy.id = 'imgCard' + imgCardIndex
-        imgCard.after(cardCopy)
 
+        cardCopy.id = 'imgCard' + imgCardIndex
+        console.log("imgCardIndex: " + imgCardIndex)
+
+        // selects old card
         let image = document.getElementById("guessImage")
         let agetext = document.getElementById("ageCircleText")
         let nametext = document.getElementById('nameCircleText')
+
+        //wipes ids from old card
+        image.id = ""
+        agetext.id = ""
+        nametext.id = ""
+
+        if (cardCount < 5) {
+            cardCount ++;
+        } else {
+            document.getElementById('imgCard' + imgCardIndex).remove()
+        }
+
+        console.log('cardCount: ' + cardCount)
+
+        // TRANSFORM PROPERTIES GENERATOR (MESSY & SHITTY)
+        let rot = randomInt(-45, 45) + "deg"
+        let xtransdirseed = randomInt(0, 1)
+        let ytransdirseed = randomInt(0, 1)
+        let xtransdir
+        let ytransdir
+
+        if (xtransdirseed == 0) {
+            xtransdir = -1
+        } else {
+            xtransdir = 1
+        }
+
+        if (ytransdirseed == 0) {
+            ytransdir = -1
+        } else {
+            ytransdir = 1
+        }
+
+        let xtrans = xtransdir * randomInt(10, 30) + "px"
+        let ytrans = ytransdir * randomInt(10, 30) + "px"
+        console.log('trans: ' + xtrans + ', ' + ytrans)
+
+        let transformValue = "transform: rotate(" + rot + ")" + " translate(" + xtrans + ", " + ytrans + ");"
+        cardCopy.setAttribute('style', transformValue)
+
+        imgCard.after(cardCopy)
+
+
+        // selects new card
+        image = document.getElementById("guessImage")
+        agetext = document.getElementById("ageCircleText")
+        nametext = document.getElementById('nameCircleText')
+
         
         console.log("Trying to display image...")
         if (url.includes("undefined")) {
@@ -230,7 +288,7 @@ export default function GuessInput() {
 
             <div className='imgCardContainer'>
 
-                <div className="guessImageWrapper" id="imgCard0">
+                <div className="imgCard" id="imgCard0">
 
                     <svg width="250" height="125" className='topArc'>
                         <path id='topArc' d="m 17.5 125 a 1 1 0 0 1 215 0" fill="transparent" />

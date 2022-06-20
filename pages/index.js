@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Header from '@components/Header'
 import Footer from '@components/Footer'
 import GuessInput from '@components/GuessInput'
+import Script from 'next/script'
 
 export default function Home() {
   return (
